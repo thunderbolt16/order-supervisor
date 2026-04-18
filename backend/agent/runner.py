@@ -81,7 +81,8 @@ async def generate_final_summary(run_id: str) -> None:
     logger.info("generate_final_summary triggered  run_id=%s", run_id)
     import json
 
-    from anthropic import AsyncAnthropic
+    from google import genai
+    from google.genai import types
     from backend.agent.runtime import _format_log_entries, _log_entry, _session_scope
     from backend.config import settings
     from sqlalchemy import text
@@ -99,7 +100,7 @@ async def generate_final_summary(run_id: str) -> None:
         entries = result.fetchall()
         activity_text = _format_log_entries(entries)
 
-        client = AsyncAnthropic(api_key=settings.ANTHROPIC_API_KEY)
+        client = genai.Client(api_key=settings.GEMINI_API_KEY)
         summary_prompt = (
             "You are reviewing a terminated order supervision run. "
             "Based on the activity log below, produce a JSON summary.\n\n"
@@ -109,12 +110,15 @@ async def generate_final_summary(run_id: str) -> None:
             f"Activity log:\n{activity_text}"
         )
         try:
-            response = await client.messages.create(
+            response = await client.aio.models.generate_content(
                 model=settings.MAIN_AGENT_MODEL,
-                max_tokens=1024,
-                messages=[{"role": "user", "content": summary_prompt}],
+                contents=summary_prompt,
+                config=types.GenerateContentConfig(
+                    max_output_tokens=1024,
+                    response_mime_type="application/json"
+                )
             )
-            raw = response.content[0].text.strip()
+            raw = response.text.strip()
             start, end = raw.find("{"), raw.rfind("}") + 1
             final_summary = json.loads(raw[start:end]) if start != -1 else {
                 "summary": raw, "actions_taken": [], "key_learnings": [], "recommendations": [],

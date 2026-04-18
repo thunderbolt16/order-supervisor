@@ -21,6 +21,6 @@ INSERT INTO supervisors (
   ],
   'medium',
   120,
-  'claude-sonnet-4-6'
+  'gemini-2.5-flash'
 )
 ON CONFLICT DO NOTHING;

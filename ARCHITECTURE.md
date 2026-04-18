@@ -3,7 +3,7 @@
 ## 1. What is this project?
 Imagine you run an e-commerce store and you need a dedicated employee watching every single order. If an order is delayed, they message logistics. If a refund is requested, they monitor it until it's paid. If there's an issue, they leave notes or contact the customer.
 
-The **Order Supervisor** does exactly this, but using AI (Claude). Instead of humans, AI agents are assigned to monitor orders. They "wake up" when events happen, decide if action is needed, use tools to take action, and then go back to "sleep" to save money and processing power.
+The **Order Supervisor** does exactly this, but using AI (Gemini). Instead of humans, AI agents are assigned to monitor orders. They "wake up" when events happen, decide if action is needed, use tools to take action, and then go back to "sleep" to save money and processing power.
 
 ---
 
@@ -16,8 +16,8 @@ This is the brain of the system. It receives events, talks to the AI, and saves 
 
 *   **FastAPI Engine**: We use FastAPI to create our API. It's very fast and handles incoming requests (like "new order created" or "payment failed").
 *   **Background Processing**: We don't want the API to wait while the AI spends a minute thinking. So, when an event comes in, the backend immediately replies "Got it!" (HTTP 202 Accepted) and sends the actual AI work to a background task so the API remains fast.
-*   **The Classifier (Fast AI)**: Waking up a powerful AI agent is expensive and slow. When an event happens while the main agent is "sleeping", we use a tiny, fast AI model (`CLASSIFIER_MODEL`, like Claude Haiku). It looks at the event and quickly decides: "Should I wake up the main agent for this, or can it wait?"
-*   **The Main Agent (Smart AI)**: If the classifier says "Wake up!", or if it's a scheduled wake-up, the main AI (`MAIN_AGENT_MODEL`, like Claude Sonnet) takes over. It reads the entire history of the order and decides what to do using tools.
+*   **The Classifier (Fast AI)**: Waking up a powerful AI agent is expensive and slow. When an event happens while the main agent is "sleeping", we use a tiny, fast AI model (`CLASSIFIER_MODEL`, like Gemini 2.5 Flash). It looks at the event and quickly decides: "Should I wake up the main agent for this, or can it wait?"
+*   **The Main Agent (Smart AI)**: If the classifier says "Wake up!", or if it's a scheduled wake-up, the main AI (`MAIN_AGENT_MODEL`, like Gemini 2.5 Flash) takes over. It reads the entire history of the order and decides what to do using tools.
 *   **The Tools**: The AI can't click buttons, so we give it "tools" (code functions) it can call. For example: `message_logistics_team`, `update_state`, or `set_sleep`.
 *   **The Scheduler (APScheduler)**: Orders take days to complete. The AI frequently says "I'll go to sleep, wake me up in 2 hours." The Scheduler is a background clock that ticks every minute, finds sleeping agents whose alarm has gone off, and wakes them up to check on the order.
 
@@ -56,10 +56,10 @@ This is the exact sequence of events when an order is being monitored:
 You need **Python 3.11+**, **Node.js 18+**, and an empty **PostgreSQL database** (we recommend a free Supabase database).
 
 ### Step 1: Environment Variables
-Create a file named `.env` in the root folder with your backend settings. Use your database credentials and Anthropic API key here:
+Create a file named `.env` in the root folder with your backend settings. Use your database credentials and Gemini API key here:
 ```env
 DATABASE_URL=postgresql+asyncpg://postgres.your_db_ref:your_password@aws-0-group.pooler.supabase.com:5432/postgres
-ANTHROPIC_API_KEY=sk-ant-your-api-key
+GEMINI_API_KEY=sk-ant-your-api-key
 ```
 *(Note: If using Supabase, make sure to use the "Session pooler" connection string, not the direct one).*
 

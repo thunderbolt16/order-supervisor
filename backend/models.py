@@ -28,7 +28,7 @@ class SupervisorCreate(BaseModel):
     )
     wake_aggressiveness: str = "medium"
     default_wake_interval_minutes: int = 120
-    model: str = "claude-sonnet-4-6"
+    model: str = "gemini-2.5-flash"
 
 
 class SupervisorResponse(BaseModel):

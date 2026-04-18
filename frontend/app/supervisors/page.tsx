@@ -28,7 +28,7 @@ const BLANK_FORM: FormState = {
   available_actions: [...DEFAULT_ACTIONS],
   wake_aggressiveness: 'medium',
   default_wake_interval_minutes: 120,
-  model: 'claude-sonnet-4-6',
+  model: 'gemini-2.5-flash',
 };
 
 export default function SupervisorsPage() {
@@ -181,7 +181,7 @@ export default function SupervisorsPage() {
               <input
                 type="text" value={form.model}
                 onChange={e => setForm(f => ({ ...f, model: e.target.value }))}
-                placeholder="claude-sonnet-4-6"
+                placeholder="gemini-2.5-flash"
                 className={inputCls}
               />
             </Field>

@@ -1,7 +1,7 @@
 # Order Supervisor
 
 An AI-powered order supervision system that monitors e-commerce orders end-to-end, proactively communicates with fulfillment, payments, and logistics teams, and automatically completes itself when an order is delivered or a refund flow resolves.
-The backend is a Python FastAPI service that runs a persistent Claude agent per order; the frontend is a Next.js 14 App Router dashboard for real-time monitoring and control.
+The backend is a Python FastAPI service that runs a persistent Gemini agent per order; the frontend is a Next.js 14 App Router dashboard for real-time monitoring and control.
 
 ---
 
@@ -41,7 +41,7 @@ Edit `.env` and fill in at minimum:
 
 ```env
 DATABASE_URL=postgresql+asyncpg://postgres:[password]@db.[ref].supabase.co:5432/postgres
-ANTHROPIC_API_KEY=sk-ant-...
+GEMINI_API_KEY=sk-ant-...
 ```
 
 Also copy the frontend env file:
@@ -100,9 +100,9 @@ Visit **<http://localhost:3000>**
 | Variable | Required | Default | Description |
 |---|---|---|---|
 | `DATABASE_URL` | ✅ | — | asyncpg connection string (`postgresql+asyncpg://…`) |
-| `ANTHROPIC_API_KEY` | ✅ | — | Anthropic API key |
-| `CLASSIFIER_MODEL` | | `claude-haiku-4-5-20251001` | Model used for event triage |
-| `MAIN_AGENT_MODEL` | | `claude-sonnet-4-6` | Model used for the supervisor agent |
+| `GEMINI_API_KEY` | ✅ | — | Gemini API key |
+| `CLASSIFIER_MODEL` | | `gemini-2.5-flash` | Model used for event triage |
+| `MAIN_AGENT_MODEL` | | `gemini-2.5-flash` | Model used for the supervisor agent |
 | `MAX_RUN_AGE_HOURS` | | `72` | Runs older than this are auto-completed |
 | `SCHEDULER_INTERVAL_SECONDS` | | `60` | How often the scheduler polls for sleeping runs |
 
@@ -155,7 +155,7 @@ order-supervisor/
 │   │   ├── classifier.py   # Fast triage model — should we wake the agent?
 │   │   ├── runtime.py      # Core agentic loop + complete_run()
 │   │   ├── runner.py       # Thin adapter layer for FastAPI BackgroundTasks
-│   │   └── tools.py        # Claude tool definitions (7 tools)
+│   │   └── tools.py        # Gemini tool definitions (7 tools)
 │   ├── db/
 │   │   ├── database.py     # Async SQLAlchemy engine + get_db() dependency
 │   │   ├── init_db.py      # One-shot DB init script

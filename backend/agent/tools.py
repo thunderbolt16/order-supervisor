@@ -1,4 +1,4 @@
-"""Claude tool definitions in Anthropic tool-use format."""
+"""Gemini tool definitions in Anthropic tool-use format."""
 
 from __future__ import annotations
 

@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS supervisors (
   wake_aggressiveness           TEXT        NOT NULL DEFAULT 'medium'
                                   CHECK (wake_aggressiveness IN ('low', 'medium', 'high')),
   default_wake_interval_minutes INTEGER     NOT NULL DEFAULT 120,
-  model                         TEXT        NOT NULL DEFAULT 'claude-sonnet-4-6',
+  model                         TEXT        NOT NULL DEFAULT 'gemini-2.5-flash',
   created_at                    TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 

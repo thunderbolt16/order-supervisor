@@ -1,4 +1,4 @@
-"""Core agent loop — loads context, calls Claude, processes tools, updates DB."""
+"""Core agent loop — loads context, calls Gemini, processes tools, updates DB."""
 
 from __future__ import annotations
 
@@ -266,7 +266,7 @@ async def _should_complete(
 
 
 async def complete_run(run_id: str, db_session: AsyncSession | None = None) -> None:
-    """Mark a run as completed and generate a structured final_summary via Claude."""
+    """Mark a run as completed and generate a structured final_summary via Gemini."""
     async with _session_scope(db_session) as db:
         # 1. Mark completed
         await db.execute(
@@ -295,7 +295,7 @@ async def complete_run(run_id: str, db_session: AsyncSession | None = None) -> N
 
         activity_text = _format_log_entries(entries)
 
-        # 3. Ask Claude for a structured summary
+        # 3. Ask Gemini for a structured summary
         client = genai.Client(api_key=settings.GEMINI_API_KEY)
         summary_prompt = (
             "You are reviewing a completed order supervision run. "
@@ -355,7 +355,7 @@ async def run_agent_cycle(
     trigger: str,
     db_session: AsyncSession | None = None,
 ) -> None:
-    """Load context, invoke the Claude agentic loop, handle tools, update DB.
+    """Load context, invoke the Gemini agentic loop, handle tools, update DB.
 
     Args:
         run_id:     UUID string of the run.
