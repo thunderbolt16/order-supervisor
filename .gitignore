@@ -1,0 +1,24 @@
+# Environment variables
+.env
+.env.*
+
+# Python / Backend
+backend/.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Node / Frontend
+node_modules/
+.next/
+out/
+build/
+.swc/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# macOS
+.DS_Store
