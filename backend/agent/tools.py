@@ -13,14 +13,14 @@ TOOLS: list[dict] = [
             "related to this order (e.g. packing errors, warehouse holds)."
         ),
         "parameters": {
-            "type": "object",
+            "type": "OBJECT",
             "properties": {
                 "message": {
-                    "type": "string",
+                    "type": "STRING",
                     "description": "The message to send to the fulfillment team.",
                 },
                 "priority": {
-                    "type": "string",
+                    "type": "STRING",
                     "enum": ["low", "medium", "high", "urgent"],
                     "description": "Priority level of the message.",
                 },
@@ -35,14 +35,14 @@ TOOLS: list[dict] = [
             "(e.g. failed charge, refund request, fraud flag)."
         ),
         "parameters": {
-            "type": "object",
+            "type": "OBJECT",
             "properties": {
                 "message": {
-                    "type": "string",
+                    "type": "STRING",
                     "description": "The message to send to the payments team.",
                 },
                 "priority": {
-                    "type": "string",
+                    "type": "STRING",
                     "enum": ["low", "medium", "high", "urgent"],
                     "description": "Priority level of the message.",
                 },
@@ -57,14 +57,14 @@ TOOLS: list[dict] = [
             "(e.g. carrier delay, wrong address, failed delivery attempt)."
         ),
         "parameters": {
-            "type": "object",
+            "type": "OBJECT",
             "properties": {
                 "message": {
-                    "type": "string",
+                    "type": "STRING",
                     "description": "The message to send to the logistics team.",
                 },
                 "priority": {
-                    "type": "string",
+                    "type": "STRING",
                     "enum": ["low", "medium", "high", "urgent"],
                     "description": "Priority level of the message.",
                 },
@@ -78,19 +78,19 @@ TOOLS: list[dict] = [
             "Send a proactive update or response to the customer about their order status."
         ),
         "parameters": {
-            "type": "object",
+            "type": "OBJECT",
             "properties": {
                 "message": {
-                    "type": "string",
+                    "type": "STRING",
                     "description": "The message to send to the customer.",
                 },
                 "channel": {
-                    "type": "string",
+                    "type": "STRING",
                     "enum": ["email", "sms", "push", "in_app"],
                     "description": "Communication channel to use.",
                 },
                 "priority": {
-                    "type": "string",
+                    "type": "STRING",
                     "enum": ["low", "medium", "high", "urgent"],
                     "description": "Priority level of the message.",
                 },
@@ -105,14 +105,14 @@ TOOLS: list[dict] = [
             "Use this to document reasoning, flag edge cases, or leave context for humans."
         ),
         "parameters": {
-            "type": "object",
+            "type": "OBJECT",
             "properties": {
                 "note": {
-                    "type": "string",
+                    "type": "STRING",
                     "description": "The content of the internal note.",
                 },
                 "category": {
-                    "type": "string",
+                    "type": "STRING",
                     "enum": [
                         "observation",
                         "decision",
@@ -137,16 +137,16 @@ TOOLS: list[dict] = [
             "Calling this tool ends the current agent cycle."
         ),
         "parameters": {
-            "type": "object",
+            "type": "OBJECT",
             "properties": {
                 "duration_minutes": {
-                    "type": "integer",
+                    "type": "INTEGER",
                     "description": "How many minutes to sleep before the next wake.",
                     "minimum": 1,
                     "maximum": 1440,
                 },
                 "reason": {
-                    "type": "string",
+                    "type": "STRING",
                     "description": "Brief reason for sleeping (shown in the activity log).",
                 },
             },
@@ -161,10 +161,10 @@ TOOLS: list[dict] = [
             "to remember across wake cycles."
         ),
         "parameters": {
-            "type": "object",
+            "type": "OBJECT",
             "properties": {
                 "state_updates": {
-                    "type": "object",
+                    "type": "OBJECT",
                     "description": (
                         "A dict of key-value pairs to merge into current_state. "
                         "Existing keys are overwritten; unmentioned keys are preserved."
